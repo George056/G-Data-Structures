@@ -97,6 +97,10 @@ namespace george_data_structures {
 						return *this;
 				}
 
+				static bool null(atom a) {
+						return (a.__atom_type.bool_flag && std::get<bool>(a.__atom));
+				}
+
 		};
 
 }
