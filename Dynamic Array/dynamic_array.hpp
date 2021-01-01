@@ -34,9 +34,10 @@ namespace george_data_structures {
 				dynamic_array operator =(const dynamic_array& da) { copyArrays(da, *this); }
 
 				arrayType& operator [](size_t index) { return __array[index]; }
+				const arrayType& operator[](size_t index) const { return __array[index]; }
 
-				size_t size() { return __size; }
-				size_t capacity() { return __size; }
+				size_t size() const { return __size; }
+				size_t capacity() const { return __size; }
 				void capacity(size_t newCapacity) {
 						std::unique_ptr<arrayType> temp = std::make_unique<arrayType[newCapacity]>();
 						copyArrays(*this, temp); //copy the values in this to temp
@@ -69,7 +70,14 @@ namespace george_data_structures {
 
 				arrayType delete_at(iterator location);
 
-				arrayType at(int index) {
+				arrayType& at(int index) {
+						if (index > __size) {
+								throw std::out_of_range;
+						}
+						return __array[index];
+				}
+
+				const arrayType& at(int index) const {
 						if (index > __size) {
 								throw std::out_of_range;
 						}
