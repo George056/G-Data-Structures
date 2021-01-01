@@ -5,7 +5,7 @@
 #ifdef golden_growth && GROWTH_RATE
 		#define GROWTH_RATE 1.6180339887
 #else
-#define GROWTH_RATE 2
+		#define GROWTH_RATE 2
 #endif
 
 namespace george_data_structures {
@@ -38,21 +38,20 @@ namespace george_data_structures {
 				size_t size() { return __size; }
 				size_t capacity() { return __size; }
 				void capacity(size_t newCapacity) {
-						dynamic_array<arrayType, newCapacity> temp = *this;
-						__array = nullptr;
-						__array = temp.__array;
-						__capacity = newCapacity;
+						size_t newCapacity = (int)(newCapacity);
+						std::unique_ptr<arrayType> temp = std::make_unique<arrayType[newCapacity]>();
+						copyArrays(*this, temp); //copy the values in this to temp
+						delete[] __array.release(); //delete this array
+						__array = temp.release(); //transfer temp to this
 				}
 				
 				dynamic_array& push_back(arrayType value) {
 						if(__size <= __capacity)
 								__array[__size++] = value;
 						else {
-								size_t newCapacity = __capacity * GROWTH_RATE; //growthrate is user controled, defaults to 2, efficent is golden ration
-								std::unique_ptr<arrayType> temp = std::make_unique<arrayType[newCapacity]>();
-								copyArrays(*this, temp); //copy the values in this to temp
-								delete[] __array.release(); //delete this array
-								__array = temp.release(); //transfer temp to this
+								//growthrate is user controled, defaults to 2, efficent is golden ration
+								size_t newCapacity = (int)(__capacity * GROWTH_RATE);
+								capacity(newCapacity);
 								__array[__size++] = value;
 						}
 						return *this;
