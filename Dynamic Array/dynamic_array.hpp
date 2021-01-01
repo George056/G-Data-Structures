@@ -86,6 +86,12 @@ namespace george_data_structures {
 
 				arrayType at(iterator index);
 
+				void visit(void(*visitor)(T&)) {
+						for (int i = 0; i < size; ++i) {
+								visitor(__array[i]);
+						}
+				}
+
 		};
 
 		template<typename arrayType, int CAPACITY>
