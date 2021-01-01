@@ -1,5 +1,12 @@
 #include <memory>
 #include <exception>
+#include <utility>
+
+#ifdef golden_growth && GROWTH_RATE
+		#define GROWTH_RATE 1.6180339887
+#else
+#define GROWTH_RATE 2
+#endif
 
 namespace george_data_structures {
 		template <typename arrayType, int CAPACITY = 0>
@@ -13,7 +20,7 @@ namespace george_data_structures {
 
 				};
 
-				static void copyArrays(const dynamic_array& source, dynamic_array& destination, size_t size);
+				static void copyArrays(const dynamic_array& source, dynamic_array& destination);
 
 		public:
 
@@ -23,10 +30,8 @@ namespace george_data_structures {
 				dynamic_array(dynamic_array&&) = default;
 				dynamic_array operator =(dynamic_array&&) = default;
 
-				static void copyArrays(const dynamic_array& source, dynamic_array& destination);
-
 				dynamic_array(const dynamic_array& da) { copyArrays(da, *this); }
-				dynamic_array operator =(const dynamic_array& da) { copyArrays(da, *this); )
+				dynamic_array operator =(const dynamic_array& da) { copyArrays(da, *this); }
 
 				arrayType& operator [](size_t index) { return __array[index]; }
 
@@ -40,7 +45,16 @@ namespace george_data_structures {
 				}
 				
 				dynamic_array& push_back(arrayType value) {
-						__array[size++] = value;
+						if(__size <= __capacity)
+								__array[__size++] = value;
+						else {
+								size_t newCapacity = __capacity * GROWTH_RATE; //growthrate is user controled, defaults to 2, efficent is golden ration
+								std::unique_ptr<arrayType> temp = std::make_unique<arrayType[newCapacity]>();
+								copyArrays(*this, temp); //copy the values in this to temp
+								delete[] __array.release(); //delete this array
+								__array = temp.release(); //transfer temp to this
+								__array[__size++] = value;
+						}
 						return *this;
 				}
 
@@ -49,16 +63,18 @@ namespace george_data_structures {
 								return __array[size--];
 						throw std::out_of_bounds();
 				}
-		}
-
+		};
 
 		template<typename arrayType, int CAPACITY>
-		inline void dynamic_array<arrayType, CAPACITY>::copyArrays(const dynamic_array& source, dynamic_array& destination){
-				destination.capacity(source.__capacity);
-				for (arrayType at : source) {
+		inline void george_data_structures::dynamic_array<arrayType, CAPACITY>::copyArrays(const dynamic_array& source, dynamic_array& destination)
+		{
+				if(destination.__capacity < source.__capacity)
+						destination.capacity(source.__capacity);
 
+				for (int i = 0; i < source.__size; ++i) {
+						destination.__array[i] = std::move(source.__array[i]);
 				}
 		}
 
-		};
-}
+
+};
