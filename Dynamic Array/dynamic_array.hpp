@@ -38,19 +38,21 @@ namespace george_data_structures {
 				size_t size() { return __size; }
 				size_t capacity() { return __size; }
 				void capacity(size_t newCapacity) {
-						size_t newCapacity = (int)(newCapacity);
 						std::unique_ptr<arrayType> temp = std::make_unique<arrayType[newCapacity]>();
 						copyArrays(*this, temp); //copy the values in this to temp
 						delete[] __array.release(); //delete this array
 						__array = temp.release(); //transfer temp to this
 				}
+				void resize(size_t newSize) {
+						capacity(newSize);
+				}
 				
 				dynamic_array& push_back(arrayType value) {
-						if(__size <= __capacity)
+						if(__size < __capacity)
 								__array[__size++] = value;
 						else {
 								//growthrate is user controled, defaults to 2, efficent is golden ration
-								size_t newCapacity = (int)(__capacity * GROWTH_RATE);
+								size_t newCapacity = (size > 0) ? (int)(__capacity * GROWTH_RATE) : 1;
 								capacity(newCapacity);
 								__array[__size++] = value;
 						}
@@ -62,6 +64,20 @@ namespace george_data_structures {
 								return __array[size--];
 						throw std::out_of_bounds();
 				}
+
+				dynamic_array& insert(arrayType value, iterator location);
+
+				arrayType delete_at(iterator location);
+
+				arrayType at(int index) {
+						if (index > __size) {
+								throw std::out_of_range;
+						}
+						return __array[index];
+				}
+
+				arrayType at(iterator index);
+
 		};
 
 		template<typename arrayType, int CAPACITY>
