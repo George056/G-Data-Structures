@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Container.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Iterator\Iterator.hpp">
+    <ClInclude Include="Iterator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
