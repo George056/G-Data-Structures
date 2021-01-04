@@ -32,12 +32,18 @@ namespace george_data_structures {
 
 		};
 
+		//read only
 		template <class T>
 		class input_iterator : public iterator_base<T> {
 		private:
 				using iterator = input_iterator;
 				
 		public:
+
+				typedef value_type = T;
+				typedef value_type_rvalue = const T&;
+				typedef pointer_type = const T*;
+
 				input_iterator() : iterator_base() {}
 				input_iterator(const input_iterator&) = default;
 				input_iterator(input_iterator&&) = default;
@@ -46,19 +52,25 @@ namespace george_data_structures {
 				virtual iterator& operator =(const iterator&) = default;
 				virtual iterator& operator =(iterator&&) = default;
 
-				virtual inline T&& operator *() { return std::move(*iterator_base<T>::__itr); }
-				virtual inline T&& operator ->() { return std::move(&*iterator_base<T>::__itr); }
+				virtual inline value_type_rvalue operator *() { return *iterator_base<T>::__itr; }
+				virtual inline pointer_type operator ->() { return &*iterator_base<T>::__itr; }
 
 				inline bool operator ==(const iterator& itr) { return iterator_base<T>::__itr == itr.iterator_base<T>::__itr;	}
 				inline bool operator !=(const iterator& itr) { return !(*this == itr); }
 		};
 
+		//write only
 		template <class T>
 		class output_iterator : public iterator_base {
 		private:
-				using iterator = input_iterator;
+				using iterator = output_iterator;
 
 		public:
+
+				typedef value_type = T;
+				typedef value_type_lvalue = T&;
+				typedef pointer_type = T*;
+
 				output_iterator() : iterator_base() {}
 				output_iterator(const output_iterator&) = default;
 				output_iterator(output_iterator&&) = default;
@@ -67,33 +79,42 @@ namespace george_data_structures {
 				virtual iterator& operator =(const iterator&) = default;
 				virtual iterator& operator =(iterator&&) = default;
 
-				virtual inline const T& operator *() { return *iterator_base<T>::__itr; }
-				virtual inline const T& operator ->() { return &*iterator_base<T>::__itr; }
+				virtual inline value_type_lvalue operator *() { return *iterator_base<T>::__itr; }
+				virtual inline pointer_type operator ->() { return &*iterator_base<T>::__itr; }
 
 		};
 
 		template <class T>
 		class forward_iterator : public input_iterator, output_iterator {
 		private:
-				using iterator = input_iterator;
+				using iterator = forward_iterator;
 
 		public:
+
+				typedef value_type = T;
+
 		};
 
 		template <class T>
 		class bidirectional_iterator : public forward_iterator {
 		private:
-				using iterator = input_iterator;
+				using iterator = bidirectional_iterator;
 
 		public:
+
+				typedef value_type = T;
+
 		};
 
 		template <class T>
 		class random_access_iterator : public bidirectional_iterator {
 		private:
-				using iterator = input_iterator;
+				using iterator = random_access_iterator;
 
 		public:
+
+				typedef value_type = T;
+
 		};
 }
 
