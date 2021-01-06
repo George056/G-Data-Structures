@@ -13,5 +13,9 @@ int main() {
 
 		std::cout << itr[-2] << std::endl;
 
+		itr = &test[2];
+
+		std::cout << *itr << std::endl;
+
 		return 0;
 }

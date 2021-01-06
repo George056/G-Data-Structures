@@ -20,6 +20,8 @@ namespace george_data_structures {
 
 				iterator_base(pointer_type ptr) : __itr{ ptr } {}
 
+				iterator& operator =(const pointer_type& ptr) { __itr = ptr; return *this; }
+
 				virtual iterator& operator =(const iterator&) = default;
 				virtual iterator& operator =(iterator&&) = default;
 
