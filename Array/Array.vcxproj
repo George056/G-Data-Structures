@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Container\Container.hpp" />
-    <ClInclude Include="..\Iterator\Iterator.hpp" />
     <ClInclude Include="Array.hpp" />
   </ItemGroup>
   <ItemGroup>

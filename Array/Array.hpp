@@ -3,7 +3,6 @@
 #define ARRAY
 
 #include "../Container/Container.hpp"
-#include "../Iterator/Iterator.hpp"
 #include <stdexcept>
 
 namespace george_data_structures {
@@ -17,9 +16,9 @@ namespace george_data_structures {
 				using reference = value_type&;
 				using constant_reference = const value_type&;
 				using pointer = value_type*;
-				using constant_pointer = const value_type*;
+				using const_pointer = const value_type*;
 				using iterator = pointer;
-				using const_iterator = constant_pointer;
+				using const_iterator = const_pointer;
 
 				array() : container<value_type, iterator, const_iterator>::container(SIZE), __size_used{ 0 } {
 						__array = new value_type[SIZE];
@@ -54,10 +53,24 @@ namespace george_data_structures {
 				}
 
 				array(pointer start, pointer end) : container<value_type, iterator, const_iterator>::container(SIZE) {
-						size_type j = 0;
-						for (pointer i = start; i < end; ++i, ++j) {
-								if (j > SIZE) std::out_of_range("Given series is bigger than memory alotted.");
-								else __array[j] = *i;
+						size_type j = end - start;
+						if(j > SIZE) std::out_of_range("Given series is bigger than memory alotted.");
+
+						__array = new value_type[j];
+
+						for (size_type i = 0; i < j; ++i) {
+								__array[i] = start[i];
+						}
+				}
+
+				array(const_pointer start, const_pointer end) : container<value_type, iterator, const_iterator>::container(SIZE) {
+						size_type j = end - start;
+						if (j > SIZE) std::out_of_range("Given series is bigger than memory alotted.");
+
+						__array = new value_type[j];
+
+						for (size_type i = 0; i < j; ++i) {
+								__array[i] = start[i];
 						}
 				}
 
@@ -73,6 +86,8 @@ namespace george_data_structures {
 								throw std::out_of_range("exceeds the size of the array");
 						return __array[index];
 				}
+
+				inline array& push_back(value_type item) { __array[__size_used++] = item; return *this; }
 
 				inline virtual iterator begin() override {
 						return iterator(&__array[0]);
