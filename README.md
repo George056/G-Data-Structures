@@ -10,14 +10,14 @@ This directory will contains various data structures that I have created. This i
 Dynamic array (vector)   
 Node   
 Linked list   
-LISP atom   
-LISP style list   
+Array   
+Iterator    
 
 ## Tasks
-- [ ] Finish Lisp style lists
-- [ ] Finish linked list
-- [ ] Finish dynamic array
-- [ ] Add queue
+- [X] Add Array
+- [X] Add Iterator
+- [ ] Finish Linked List
+- [ ] Finish Dynamic Array
+- [ ] Add Queue
 - [ ] Add Stack
-- [ ] Add matrix
 - [ ] Add tree
