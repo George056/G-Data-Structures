@@ -24,17 +24,17 @@ namespace george_data_structures {
 						__array = new value_type[SIZE];
 				}
 
+				//this uses a minimum copy, only having just enough cells to copy the given array.
 				array(const array& ary) : __size_used{ ary.__size_used },
 																container<value_type, iterator, const_iterator>::__size{ ary.get_size() }{
-						__array = new value_type[size()];
+						__array = new value_type[ary.size()];
 						copy_array(ary, *this);
 				}
 
 				virtual array& operator =(const array& ary) {
-						if(__array != nullptr)
-								delete[] __array;
+						if (container<value_type, iterator, const_iterator>::__size < ary.size())
+								throw std::out_of_range("Size of the given array is too large.");
 						__size_used = ary.__size_used;
-						container<value_type, iterator, const_iterator>::__size = ary.__size;
 						copy_array(ary, *this);
 						return *this;
 				}
@@ -44,6 +44,7 @@ namespace george_data_structures {
 
 				//copy a c-array
 				array(pointer ptr, size_type size) : container<value_type, iterator, const_iterator>::container(SIZE), __size_used{ size }{
+						__array = new value_type[SIZE];
 						if (size < SIZE)
 								for (size_type i = 0; i < size; ++i) {
 										__array[i] = ptr[i];
@@ -56,7 +57,7 @@ namespace george_data_structures {
 						size_type j = end - start;
 						if(j > SIZE) std::out_of_range("Given series is bigger than memory alotted.");
 
-						__array = new value_type[j];
+						__array = new value_type[SIZE];
 
 						for (size_type i = 0; i < j; ++i) {
 								__array[i] = start[i];
