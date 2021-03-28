@@ -1,4 +1,3 @@
-#pragma once
 #ifndef ARRAY
 #define ARRAY
 
@@ -50,12 +49,12 @@ namespace george_data_structures {
 										__array[i] = ptr[i];
 								}
 						else
-								std::out_of_range("Given C-array is bigger than memory alotted.");
+								std::out_of_range("Given C-array is bigger than memory allotted.");
 				}
 
 				array(pointer start, pointer end) : container<value_type, iterator, const_iterator>::container(SIZE) {
 						size_type j = end - start;
-						if(j > SIZE) std::out_of_range("Given series is bigger than memory alotted.");
+						if(j > SIZE) std::out_of_range("Given series is bigger than memory allotted.");
 
 						__array = new value_type[SIZE];
 
@@ -66,7 +65,7 @@ namespace george_data_structures {
 
 				array(const_pointer start, const_pointer end) : container<value_type, iterator, const_iterator>::container(SIZE) {
 						size_type j = end - start;
-						if (j > SIZE) std::out_of_range("Given series is bigger than memory alotted.");
+						if (j > SIZE) std::out_of_range("Given series is bigger than memory allotted.");
 
 						__array = new value_type[j];
 
