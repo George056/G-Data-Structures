@@ -81,6 +81,12 @@ namespace george_data_structures {
 				void copyNodes(std::unique_ptr<_node>& dest, const std::unique_ptr<_node>& src);
 				
 		public:
+				using value_type = listType;
+				using size_type = size_t;
+				using reference = value_type&;
+				using constant_reference = const value_type&;
+				using pointer = value_type*;
+				using const_pointer = const value_type*;
 				using iterator = __Iterator__;
 
 				unsorted_list() = default;

@@ -13,6 +13,9 @@ Linked list
 Array   
 Iterator    
 
+# Update
+***Development shifted to [blib](https://github.com/George056/blib)***
+
 ## Tasks
 - [X] Add Array
 - [X] Add Iterator
